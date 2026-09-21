@@ -8,8 +8,9 @@
   const escapeText = (v) => String(v).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * clamp(t)));
   const rgb = (a) => `rgb(${a.join(',')})`;
-  const surfaceColor = (t) => t < .5 ? mix([37,83,69],[240,234,215],t*2) : mix([240,234,215],[195,102,67],(t-.5)*2);
+  const surfaceColor = (t) => t < .5 ? mix([247,239,211],[216,162,99],t*2) : mix([216,162,99],[155,58,32],(t-.5)*2);
   const text = (x,y,value,attrs='') => `<text x="${x}" y="${y}" ${attrs}>${escapeText(value)}</text>`;
+  const announce = (message) => { $('interaction-status').textContent=message; };
 
   function canvasContext(canvas, width, height) {
     const scale = Math.min(window.devicePixelRatio || 1, 2);
@@ -104,7 +105,7 @@
       s+='<path d="M62 57V80H175V102M287 57V80H175" fill="none" stroke="#8dab90"/>';
       s+=box(95,102,160,42,'pair + token eⱼₖ',1)+box(95,182,160,50,'shared network fθ',2)+box(95,272,160,42,'hard sigmoid σ',3);
       s+='<path d="M175 144V182M175 232V272M175 314V342" fill="none" stroke="#8dab90"/>';
-      s+=text(175,363,'weighted sum → exp → frequency','text-anchor="middle" fill="#c5e5b0" font-size="13"');
+      s+=box(42,342,266,40,'weighted sum → exp → frequency',4);
       s+=text(270,194,'same','fill="#b8cdbf" font-size="10"')+text(270,210,'network','fill="#b8cdbf" font-size="10"')+text(270,226,'for all pairs','fill="#b8cdbf" font-size="10"');
       svg.innerHTML=s+'</g>';return;
     }
@@ -126,8 +127,10 @@
     const ids=['stage-kicker','stage-title','stage-copy','stage-equation'];ids.forEach((id,i)=>$(id).textContent=stages[index][i]);
     document.querySelectorAll('[data-stage]').forEach(b=>{const selected=Number(b.dataset.stage)===index;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;});
     $('stage-panel').setAttribute('aria-labelledby',`stage-tab-${index}`);drawArchitecture(index);
+    $('stage-count').textContent=`Step ${index+1} of 5`;$('stage-prev').disabled=index===0;$('stage-next').disabled=index===4;
   }
   document.querySelectorAll('[data-stage]').forEach(b=>{b.addEventListener('click',()=>setStage(Number(b.dataset.stage)));b.addEventListener('keydown',event=>{let idx=Number(b.dataset.stage);if(event.key==='ArrowRight')idx=(idx+1)%5;else if(event.key==='ArrowLeft')idx=(idx+4)%5;else if(event.key==='Home')idx=0;else if(event.key==='End')idx=4;else return;event.preventDefault();setStage(idx);$(`stage-tab-${idx}`).focus();});});setStage(0);
+  ['prev','next'].forEach(direction=>$(`stage-${direction}`).addEventListener('click',()=>{const current=Number(document.querySelector('[data-stage][aria-selected="true"]').dataset.stage);const next=clamp(current+(direction==='next'?1:-1),0,4);setStage(next);announce(`Step ${next+1} of 5. ${stages[next][1]}`);}));
 
   const model=window.PIN_MODEL;
   let pairIndex=0;
@@ -137,11 +140,12 @@
     const canvas=$('pair-canvas'),mobile=canvas.clientWidth<550;
     Object.assign(plot,mobile?{left:58,top:20,width:Math.max(280,canvas.clientWidth)-76,height:Math.max(280,canvas.clientWidth)*.77,canvasWidth:Math.max(280,canvas.clientWidth),canvasHeight:Math.max(280,canvas.clientWidth)*.77+100}:{left:90,top:24,width:700,height:510,canvasWidth:850,canvasHeight:620});
     const p=currentPair(),ctx=canvasContext(canvas,plot.canvasWidth,plot.canvasHeight),nx=p.xValues.length,ny=p.yValues.length;
+    if(mobile&&p.ySpacing==='log'){plot.left=72;plot.width-=14;}
     const vals=p.values.flat(),lo=Math.min(...vals),hi=Math.max(...vals),span=hi-lo||1,dx=plot.width/nx,dy=plot.height/ny;
     for(let y=0;y<ny;y++)for(let x=0;x<nx;x++){
       const px=plot.left+x*dx,py=plot.top+(ny-1-y)*dy;
       ctx.fillStyle=rgb(surfaceColor((p.values[y][x]-lo)/span));ctx.fillRect(px,py,dx+1,dy+1);
-      if(!p.supportMask[y][x]){
+      if($('show-support').checked&&!p.supportMask[y][x]){
         ctx.save();ctx.beginPath();ctx.rect(px,py,dx,dy);ctx.clip();ctx.strokeStyle='rgba(30,49,39,.30)';ctx.lineWidth=.7;
         for(let t=-dy;t<dx+dy;t+=7){ctx.beginPath();ctx.moveTo(px+t,py+dy);ctx.lineTo(px+t+dy,py);ctx.stroke();}ctx.restore();
       }
@@ -150,20 +154,25 @@
     for(let k=0;k<5;k++){
       const xi=Math.round(k*(nx-1)/4),yi=Math.round(k*(ny-1)/4);
       ctx.textAlign='center';ctx.fillText(compact(p.xValues[xi]),plot.left+(xi+.5)*dx,plot.top+plot.height+27);
-      ctx.textAlign='right';ctx.fillText(compact(p.yValues[yi]),plot.left-14,plot.top+(ny-yi-.5)*dy+5);
+      const tick=p.ySpacing==='log'?new Intl.NumberFormat('en',{notation:'compact',maximumSignificantDigits:3}).format(p.yValues[yi]):compact(p.yValues[yi]);
+      ctx.textAlign='right';ctx.fillText(tick,plot.left-14,plot.top+(ny-yi-.5)*dy+5);
     }
     ctx.textAlign='center';ctx.fillText(p.xLabel,plot.left+plot.width/2,plot.top+plot.height+65);
     ctx.save();ctx.translate(mobile?12:21,plot.top+plot.height/2);ctx.rotate(-Math.PI/2);ctx.fillText(p.yLabel+(p.ySpacing==='log'?' · log scale':''),0,0);ctx.restore();
     const ix=Number($('pair-x').value),iy=Number($('pair-y').value),cx=plot.left+(ix+.5)*dx,cy=plot.top+(ny-iy-.5)*dy;
     ctx.strokeStyle='rgba(255,253,246,.7)';ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(cx,plot.top);ctx.lineTo(cx,plot.top+plot.height);ctx.moveTo(plot.left,cy);ctx.lineTo(plot.left+plot.width,cy);ctx.stroke();ctx.setLineDash([]);
     ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fillStyle='#173e35';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle='#fffdf6';ctx.stroke();
-    $('pair-low').textContent=signed(lo);$('pair-high').textContent=signed(hi);$('pair-x-output').textContent=compact(p.xValues[ix]);$('pair-y-output').textContent=compact(p.yValues[iy]);$('pair-value').textContent=signed(p.values[iy][ix],4);
+    $('pair-low').textContent=signed(lo);$('pair-mid').textContent=signed((lo+hi)/2);$('pair-high').textContent=signed(hi);$('pair-x-output').textContent=compact(p.xValues[ix]);$('pair-y-output').textContent=compact(p.yValues[iy]);$('pair-value').textContent=signed(p.values[iy][ix],4);
     $('pair-support').textContent=`${p.support[iy][ix].toLocaleString('en-US')} learning records in this cell${p.supportMask[iy][ix]?'':' · sparse support'}`;
-    $('pair-x').setAttribute('aria-valuetext',`${compact(p.xValues[ix])} ${p.xLabel}`);$('pair-y').setAttribute('aria-valuetext',`${compact(p.yValues[iy])} ${p.yLabel}`);
+    const [xName,yName]=p.label.split(' × ');
+    $('pair-point').textContent=`${xName} ${compact(p.xValues[ix])} · ${yName} ${compact(p.yValues[iy])}`;
+    $('pair-inline-value').textContent=signed(p.values[iy][ix],4);$('pair-inline-support').textContent=`${p.support[iy][ix].toLocaleString('en-US')} records · log-frequency contribution${p.supportMask[iy][ix]?'':' · sparse'}`;
+    $('pair-x').setAttribute('aria-valuetext',`${compact(p.xValues[ix])} ${p.xLabel}; pair contribution ${signed(p.values[iy][ix],4)}`);$('pair-y').setAttribute('aria-valuetext',`${compact(p.yValues[iy])} ${p.yLabel}; pair contribution ${signed(p.values[iy][ix],4)}`);
     $('pair-canvas').setAttribute('aria-label',`${p.label}. Selected ${p.xLabel}: ${p.xValues[ix]}; ${p.yLabel}: ${p.yValues[iy]}. Pair contribution ${p.values[iy][ix].toFixed(4)} on the log-frequency scale.`);
   }
-  function selectPair(){
-    pairIndex=Number($('pair-select').value);const p=currentPair();
+  function selectPair(index){
+    pairIndex=index;const p=currentPair();
+    document.querySelectorAll('[data-pair]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.pair)===index)));
     $('pair-title').textContent=p.label;$('pair-x-label').textContent=p.xLabel;$('pair-y-label').textContent=p.yLabel;
     $('pair-description').textContent='A fitted pair function can vary across the whole surface. Read the pattern together with the data-support overlay.';
     [['pair-x',p.xValues],['pair-y',p.yValues]].forEach(([id,values])=>{$(id).max=values.length-1;$(id).value=Math.floor(values.length/2);});drawPair();
@@ -172,7 +181,8 @@
     const p=model.profiles[index];document.querySelectorAll('[data-profile]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.profile)===index)));
     $('profile-title').textContent=p.label;$('profile-description').textContent=p.description;$('profile-frequency').textContent=(p.frequency*100).toFixed(2);$('profile-baseline').textContent=p.baselineLog.toFixed(4);$('profile-log').textContent=p.logPrediction.toFixed(4);
     const sum=p.contributions.reduce((acc,c)=>acc+c.value,0);$('profile-sum').textContent=signed(sum,4);
-    const rows=[...p.contributions].sort((a,b)=>Math.abs(b.value)-Math.abs(a.value));
+    const importance=(feature)=>model.profiles.reduce((sum,profile)=>sum+Math.abs(profile.contributions.find(c=>c.feature===feature).value),0);
+    const rows=[...p.contributions].sort((a,b)=>importance(b.feature)-importance(a.feature));
     const extent=Math.max(...model.profiles.flatMap(profile=>profile.contributions.map(c=>Math.abs(c.value))))*1.2;
     const mobile=$('shap-chart').clientWidth<550,sw=mobile?360:720,mid=mobile?235:426,half=mobile?76:214,top=35,rowHeight=43;
     $('shap-chart').setAttribute('viewBox',`0 0 ${sw} 470`);
@@ -183,28 +193,34 @@
   }
   if(model?.status==='verified'){
     $('model-loading').hidden=true;$('model-explorer').hidden=false;$('profile-exhibit').hidden=false;
-    $('pair-select').innerHTML=model.pairs.map((p,i)=>`<option value="${i}">${escapeText(p.label)}</option>`).join('');
-    $('pair-select').addEventListener('change',selectPair);['pair-x','pair-y'].forEach(id=>$(id).addEventListener('input',drawPair));
-    $('pair-canvas').addEventListener('pointermove',event=>{
+    $('pair-choices').innerHTML=model.pairs.map((p,i)=>{const [first,second]=p.label.split(' × ');return `<button type="button" data-pair="${i}" aria-pressed="${i===0}"><span>${escapeText(first)}</span><small>× ${escapeText(second)}</small><b aria-hidden="true">↗</b></button>`;}).join('');
+    document.querySelectorAll('[data-pair]').forEach(button=>button.addEventListener('click',()=>{selectPair(Number(button.dataset.pair));announce(`${currentPair().label}. Surface loaded. Scale is specific to this pair.`);}));
+    $('show-support').addEventListener('change',drawPair);['pair-x','pair-y'].forEach(id=>$(id).addEventListener('input',drawPair));
+    function inspectPair(event){
       const rect=event.currentTarget.getBoundingClientRect(),x=(event.clientX-rect.left)/rect.width*plot.canvasWidth,y=(event.clientY-rect.top)/rect.height*plot.canvasHeight;
       if(x<plot.left||x>plot.left+plot.width||y<plot.top||y>plot.top+plot.height)return;
       const p=currentPair();$('pair-x').value=clamp(Math.floor((x-plot.left)/plot.width*p.xValues.length),0,p.xValues.length-1);$('pair-y').value=clamp(p.yValues.length-1-Math.floor((y-plot.top)/plot.height*p.yValues.length),0,p.yValues.length-1);drawPair();
-    });
+    }
+    $('pair-canvas').addEventListener('pointermove',event=>{if(event.pointerType==='mouse')inspectPair(event);});
+    $('pair-canvas').addEventListener('pointerdown',inspectPair);
     $('model-provenance-summary').textContent=`Exhibits use ${model.model.name} from the authors’ ${model.source.archive}. The released continuous embedding applies a linear layer followed by tanh; the paper describes tanh followed by a linear layer. The ten released models yield ensemble test deviance × 100 of ${model.validation.ensembleTestDeviance.toFixed(6)}, matching the published ${Number(window.PIN_RESEARCH.datasets.france.benchmarks.find(b=>b.kind==='ensemble'&&/PIN/.test(b.name)).test*100).toFixed(3)} after rounding. This agreement does not resolve the architectural difference. The published table and checkpoint demonstration remain distinct sources.`;
     $('profile-tabs').innerHTML=model.profiles.map((p,i)=>`<button type="button" data-profile="${i}" aria-pressed="${i===0}">${escapeText(p.label)}</button>`).join('');
-    document.querySelectorAll('[data-profile]').forEach(b=>b.addEventListener('click',()=>showProfile(Number(b.dataset.profile))));selectPair();showProfile(0);
+    document.querySelectorAll('[data-profile]').forEach(b=>b.addEventListener('click',()=>{showProfile(Number(b.dataset.profile));announce(`${$('profile-title').textContent}. ${$('profile-frequency').textContent} expected claims per 100 policy-years.`);}));selectPair(0);showProfile(0);
   }
 
   let dataset='france',comparison='ensemble';
   function drawBenchmarks(){
     const data=window.PIN_RESEARCH?.datasets[dataset];if(!data)return;
-    const rows=data.benchmarks.filter(b=>b.kind===comparison||b.kind==='baseline').sort((a,b)=>a.test-b.test);
-    const pin=rows.find(b=>/PIN/.test(b.name)),next=rows.find(b=>b!==pin),values=rows.map(b=>b.test*100);
-    const lo=Math.floor((Math.min(...values)-.05)*10)/10,hi=Math.ceil((Math.max(...values)+.03)*10)/10;
+    const neuralOnly=$('neural-focus').checked;
+    const rows=data.benchmarks.filter(b=>b.kind===comparison||(!neuralOnly&&b.kind==='baseline')).sort((a,b)=>a.test-b.test);
+    $('benchmark-scope').textContent=neuralOnly?'Neural models only · axis rescaled':'All reported models · zoomed axis';
+    $('benchmark-note').textContent=`Axis zoomed to show differences. Individual neural-fit results are means over ten runs; ensembles average predictions. ${neuralOnly?'Baselines remain in the complete table below.':'Baselines are shown for context.'}`;
+    const pin=rows.find(b=>/PIN/.test(b.name)),next=rows.find(b=>b!==pin);
+    const lo=Math.floor((Math.min(...rows.map(b=>(b.test-(b.sd||0))*100))-.03)*10)/10,hi=Math.ceil((Math.max(...rows.map(b=>(b.test+(b.sd||0))*100))+.03)*10)/10;
     const mobile=$('benchmark-chart').clientWidth<550,sw=mobile?Math.max(280,$('benchmark-chart').clientWidth):780,left=mobile?0:240,pw=mobile?sw-70:425,top=45,rh=mobile?62:49,height=top+rows.length*rh+30;
     $('benchmark-chart').setAttribute('viewBox',`0 0 ${sw} ${height}`);
     let s='<g font-family="DM Sans, sans-serif">';
-    for(let i=0;i<=4;i++){const x=left+pw*i/4;s+=`<line x1="${x}" x2="${x}" y1="20" y2="${top+(rows.length-.5)*rh}" stroke="#456151" stroke-dasharray="3 5"/>`+text(x,height-2,(lo+(hi-lo)*i/4).toFixed(2),'text-anchor="middle" fill="#bfd1c3" font-size="13"');}
+    for(let i=0;i<=4;i++){const x=left+pw*i/4;s+=`<line x1="${x}" x2="${x}" y1="20" y2="${top+(rows.length-.5)*rh}" stroke="#456151" stroke-dasharray="3 5"/>`+text(x,height-8,(lo+(hi-lo)*i/4).toFixed(2),`text-anchor="${mobile&&i===0?'start':'middle'}" fill="#bfd1c3" font-size="13"`);}
     rows.forEach((b,i)=>{
       const y=top+i*rh,x=left+(b.test*100-lo)/(hi-lo)*pw,isPin=/PIN/.test(b.name),label=b.name.replace(/^Ensemble /,'').replace('tree-like PIN','Tree-like PIN').replace('plain-vanilla','Plain-vanilla').replace(' (intercept-only)','');
       if(isPin)s+=`<rect x="0" y="${y-(mobile?29:22)}" width="${sw-2}" height="${mobile?53:44}" fill="#254d3e"/>`;
@@ -223,14 +239,41 @@
     const existing=$('benchmark-table').querySelector('tbody');if(existing)existing.replaceWith(tbody);else $('benchmark-table').append(tbody);
     $('benchmark-table').querySelector('caption').textContent=`${data.label} · published Table ${dataset==='france'?'2':'4'} · deviance × 100 · parentheses: SD across runs`;
   }
-  document.querySelectorAll('[data-dataset]').forEach(b=>b.addEventListener('click',()=>{dataset=b.dataset.dataset;document.querySelectorAll('[data-dataset]').forEach(el=>el.setAttribute('aria-pressed',String(el===b)));drawBenchmarks();}));
-  document.querySelectorAll('[data-comparison]').forEach(b=>b.addEventListener('click',()=>{comparison=b.dataset.comparison;document.querySelectorAll('[data-comparison]').forEach(el=>el.setAttribute('aria-pressed',String(el===b)));drawBenchmarks();}));drawBenchmarks();
+  const announceBenchmark=()=>announce(`${dataset==='france'?'France':'Belgium'}, ${comparison==='ensemble'?'ensembles':'individual fits'}. PIN test deviance times 100: ${$('result-score').textContent}. ${$('benchmark-scope').textContent}.`);
+  document.querySelectorAll('[data-dataset]').forEach(b=>b.addEventListener('click',()=>{dataset=b.dataset.dataset;document.querySelectorAll('[data-dataset]').forEach(el=>el.setAttribute('aria-pressed',String(el===b)));drawBenchmarks();announceBenchmark();}));
+  document.querySelectorAll('[data-comparison]').forEach(b=>b.addEventListener('click',()=>{comparison=b.dataset.comparison;document.querySelectorAll('[data-comparison]').forEach(el=>el.setAttribute('aria-pressed',String(el===b)));drawBenchmarks();announceBenchmark();}));
+  $('neural-focus').addEventListener('change',()=>{drawBenchmarks();announceBenchmark();});drawBenchmarks();
 
   const citation='@article{richman2026pin,\n  title={Tree-like pairwise interaction networks},\n  author={Richman, Ronald and Scognamiglio, Salvatore and W{\\"u}thrich, Mario},\n  journal={Annals of Actuarial Science},\n  year={2026},\n  doi={10.1017/S1748499526100402}\n}';
   $('copy-citation').addEventListener('click',async()=>{
-    try{await navigator.clipboard.writeText(citation);$('citation-copy-label').textContent='Citation copied';}
+    try{await navigator.clipboard.writeText(citation);$('citation-copy-label').textContent='Citation copied';announce('BibTeX citation copied to the clipboard.');}
     catch{const blob=new Blob([citation],{type:'text/plain'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='richman-scognamiglio-wuthrich-2026.bib';link.click();URL.revokeObjectURL(url);$('citation-copy-label').textContent='Citation downloaded';}
   });
+  const chapterNav=document.querySelector('.section-index nav');
+  const chapters=[...chapterNav.querySelectorAll('a')].map(link=>({link,section:document.querySelector(link.getAttribute('href'))}));
+  let activeChapter=null,readingFrame=false;
+  function updateChapterEdges(){
+    const atEnd=chapterNav.scrollLeft+chapterNav.clientWidth>=chapterNav.scrollWidth-4;
+    chapterNav.classList.toggle('has-before',chapterNav.scrollLeft>4);
+    $('chapter-next').textContent=atEnd?'←':'→';
+    $('chapter-next').setAttribute('aria-label',atEnd?'Show earlier chapters':'Show more chapters');
+  }
+  chapterNav.addEventListener('scroll',updateChapterEdges,{passive:true});
+  function updateReadingPosition(){
+    readingFrame=false;
+    const remaining=document.documentElement.scrollHeight-innerHeight;
+    $('reading-progress').style.transform=`scaleX(${remaining>0?clamp(scrollY/remaining):0})`;
+    const current=chapters.filter(item=>item.section.getBoundingClientRect().top<innerHeight*.4).at(-1);
+    if(current&&current!==activeChapter){
+      activeChapter=current;
+      chapters.forEach(item=>{if(item===current)item.link.setAttribute('aria-current','location');else item.link.removeAttribute('aria-current');});
+      const left=current.link.offsetLeft-chapterNav.offsetLeft-(chapterNav.clientWidth-current.link.offsetWidth)/2;
+      chapterNav.scrollTo({left:Math.max(0,left),behavior:'instant'});
+    }else if(!current&&activeChapter){activeChapter=null;chapters.forEach(item=>item.link.removeAttribute('aria-current'));}
+  }
+  window.addEventListener('scroll',()=>{if(!readingFrame){readingFrame=true;requestAnimationFrame(updateReadingPosition);}},{passive:true});
+  $('chapter-next').addEventListener('click',()=>{const atEnd=chapterNav.scrollLeft+chapterNav.clientWidth>=chapterNav.scrollWidth-4;chapterNav.scrollTo({left:atEnd?0:chapterNav.scrollLeft+chapterNav.clientWidth*.7,behavior:reduceMotion.matches?'instant':'smooth'});});
+  updateReadingPosition();updateChapterEdges();
   new ResizeObserver(drawHero).observe(heroCanvas);
   let resizeTimer;
   window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{drawSplit();drawArchitecture(Number(document.querySelector('[data-stage][aria-selected="true"]').dataset.stage));drawBenchmarks();if(model?.status==='verified'){drawPair();showProfile(Number(document.querySelector('[data-profile][aria-pressed="true"]').dataset.profile));}},100);});

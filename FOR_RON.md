@@ -115,3 +115,36 @@ were visually inspected as well.
 The main checkout is `/home/ron/pin-showcase`; implementation and private source
 extraction are retained in `/home/ron/pin-showcase-build`. Both refer to the same
 Git repository. The original R2 ZIP was never modified.
+
+## Design refinement
+
+The polish pass lives in `/home/ron/pin-showcase-polish`. Two independent reviews
+looked at visual clarity and interaction, followed by another visual pass on
+the revised mobile layouts. Findings and acceptance criteria are recorded in
+`todos/2026-09-21-design-review.md`.
+
+The most consequential change is the surface colour scale. All three saved
+pair grids are nonnegative, so a green-to-white-to-copper scale suggested a
+negative/positive distinction that the numbers did not contain. A sequential
+cream-to-copper scale now shows low to high contributions. Its legend explicitly
+says that the scale varies by pair. The support hatch has its own key and can
+be switched off to inspect the shape; switching it off never changes a value.
+
+On a phone, a selected point needs its value beside it. The compact readout now
+stays above the heatmap, while the full inspector retains units and controls.
+All three relationships are visible choices, sliders have 44-pixel touch
+targets, and the chapter rail shows where you are and how to reach more
+chapters. The architecture has bounded previous/next steps, including a visible
+Combine highlight in its vertical layout.
+
+The evidence chart can focus on neural models, with the rescaled axis stated
+beside the control. The default still includes the reported baselines, and the
+complete table remains available in either view. Fixed feature ordering makes
+the four SHAP examples easier to compare. These are presentation changes:
+the published values, saved-model grids and numerical validation are unchanged.
+
+The expanded browser suite checks 32 chart configurations, actual touch
+selection, keyboard feedback and mobile navigation. It caught a two-pixel
+vertical crop on axis labels that a page-overflow check would miss. Checking
+the text bounding boxes inside the SVG fixed the root cause. All 14 groups
+passed locally; see `verification/design-browser-qa.json`.
