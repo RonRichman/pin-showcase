@@ -72,3 +72,9 @@ The numerical checker, JavaScript syntax checks and whitespace checks pass.
 Desktop and mobile screenshots were inspected after the changes. The initial
 tick-density failure and test-harness negative-zero failure are retained in
 `verification/fable-first-pass.json`; both were resolved before publication.
+
+Published commit `4f37c5556b3bd2ef0cc069acf03e19372b3e0b28` passed deployment
+run `35648531837`. All 15 browser groups passed on the public site, and all
+21 public assets matched the reviewed local files. Final receipts:
+`verification/fable-browser-qa-live.json` and
+`verification/fable-live-assets.json`. This review is closed.
