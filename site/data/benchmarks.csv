@@ -1,0 +1,20 @@
+dataset,table,name,kind,parameters,parameter_basis,runs,train_raw,test_raw,train_sd_raw,test_sd_raw,train_paper_1e-2,test_paper_1e-2,train_sd_paper_1e-2,test_sd_paper_1e-2,source_doi
+france,2,Null model (intercept-only),baseline,1,per model,1,0.25213,0.25445,,,25.213,25.445,,,10.1017/S1748499526100402
+france,2,Poisson GLM3,baseline,50,per model,1,0.24084,0.24102,,,24.084,24.102,,,10.1017/S1748499526100402
+france,2,Poisson GAM,baseline,66.7,effective degrees of freedom,1,0.2392,0.23956,,,23.920,23.956,,,10.1017/S1748499526100402
+france,2,Plain-vanilla FNN,single,792,per model,10,0.23728,0.23819,0.00026,0.00017,23.728,23.819,0.026,0.017,10.1017/S1748499526100402
+france,2,Ensemble plain-vanilla FNN,ensemble,792,per model,10,0.23691,0.23783,,,23.691,23.783,,,10.1017/S1748499526100402
+france,2,CAFFT,single,27133,per model,10,0.23715,0.23807,0.00047,0.00017,23.715,23.807,0.047,0.017,10.1017/S1748499526100402
+france,2,Ensemble CAFFT,ensemble,27133,per model,10,0.2363,0.23726,,,23.630,23.726,,,10.1017/S1748499526100402
+france,2,Credibility Transformer,single,1746,per model,10,0.23641,0.23788,0.00053,0.0004,23.641,23.788,0.053,0.040,10.1017/S1748499526100402
+france,2,Ensemble Credibility Transformer,ensemble,1746,per model,10,0.23562,0.23711,,,23.562,23.711,,,10.1017/S1748499526100402
+france,2,Tree-like PIN,single,4147,per model,10,0.23593,0.2374,0.00046,0.00025,23.593,23.740,0.046,0.025,10.1017/S1748499526100402
+france,2,Ensemble tree-like PIN,ensemble,4147,per model,10,0.23522,0.23667,,,23.522,23.667,,,10.1017/S1748499526100402
+belgium,4,Null model (intercept-only),baseline,1,per model,1,0.55071,0.55062,,,55.071,55.062,,,10.1017/S1748499526100402
+belgium,4,Poisson GLM,baseline,13,per model,1,0.53494,0.53338,,,53.494,53.338,,,10.1017/S1748499526100402
+belgium,4,Plain-vanilla FNN,single,1166,per model,10,0.53357,0.53168,0.00052,0.00067,53.357,53.168,0.052,0.067,10.1017/S1748499526100402
+belgium,4,Ensemble plain-vanilla FNN,ensemble,1166,per model,10,0.53123,0.52976,,,53.123,52.976,,,10.1017/S1748499526100402
+belgium,4,Credibility Transformer,single,1646,per model,10,0.53153,0.53045,0.00104,0.00122,53.153,53.045,0.104,0.122,10.1017/S1748499526100402
+belgium,4,Ensemble Credibility Transformer,ensemble,1646,per model,10,0.53043,0.52934,,,53.043,52.934,,,10.1017/S1748499526100402
+belgium,4,Tree-like PIN,single,4828,per model,10,0.53107,0.52927,0.001,0.00098,53.107,52.927,0.100,0.098,10.1017/S1748499526100402
+belgium,4,Ensemble tree-like PIN,ensemble,4828,per model,10,0.53008,0.52826,,,53.008,52.826,,,10.1017/S1748499526100402

@@ -1,0 +1,3 @@
+# Preserve upstream license bytes and conventional CSV line endings.
+site/assets/fonts/*-OFL.txt -text -whitespace
+site/data/*.csv -text whitespace=cr-at-eol

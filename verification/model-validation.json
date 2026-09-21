@@ -1,0 +1,77 @@
+{
+  "testRows": 67801,
+  "learningRows": 610206,
+  "totalRows": 678007,
+  "testDeviance": 23.764069743385406,
+  "ensembleTestDeviance": 23.667233122708723,
+  "individualModels": [
+    {
+      "seed": 100,
+      "testDeviance": 23.764069743385406,
+      "sha256": "7f47e8cd7f3cbd7aa4dfc3285922539199454000e961dd656244328241b4183e"
+    },
+    {
+      "seed": 101,
+      "testDeviance": 23.729908555962385,
+      "sha256": "c3ef0acfd3bbee076663099c878b286154fa3510d36d919f99f5edf6000b754d"
+    },
+    {
+      "seed": 102,
+      "testDeviance": 23.73602329414649,
+      "sha256": "b947b470082107f9fbd970b75f437e10778237a671191d7d617bea7e1fb26435"
+    },
+    {
+      "seed": 103,
+      "testDeviance": 23.725202467004113,
+      "sha256": "c1c6aa2f3d6c2345bcf03f6ce69f730bc88b62411b24255616775b6fe9a1ca8a"
+    },
+    {
+      "seed": 104,
+      "testDeviance": 23.745777791365246,
+      "sha256": "2d4e8c64ae12636658690b51fc4ebd3e2ce1c9caf59e07a58a2a7b85af9babe6"
+    },
+    {
+      "seed": 105,
+      "testDeviance": 23.767972371507938,
+      "sha256": "f6668139efac6fa3aa4be6839a2b6b08f2ea3b8ee7b7bcff729145343f45b158"
+    },
+    {
+      "seed": 106,
+      "testDeviance": 23.748450978570247,
+      "sha256": "45176bdf5bc6bb4fb1c9dfb885d64cccfab8b3ab84b9822fc131b610e202a6f3"
+    },
+    {
+      "seed": 107,
+      "testDeviance": 23.67946529271354,
+      "sha256": "f75618923e506e43fad5380303e30dfbdaf89502575e31e53f3508f33d976b58"
+    },
+    {
+      "seed": 108,
+      "testDeviance": 23.742233701251276,
+      "sha256": "13b3c940db58353ab47fedddb52b63d9b31f16e90a0c539dd59c0d15bd65e73a"
+    },
+    {
+      "seed": 109,
+      "testDeviance": 23.76441044248257,
+      "sha256": "1019eab918217141b5c5fe2f80c6386268da62faadb3c0bb9444ebba7e33b6c2"
+    }
+  ],
+  "devianceDefinition": "100 \u00d7 mean Poisson deviance per policy record; predicted claims = annual frequency \u00d7 exposure",
+  "tensorflowCrossCheck": {
+    "engine": "TensorFlow float32 explicit concatenation and original layer order vs NumPy float64 factored first layer",
+    "rows": 512,
+    "maxAbsoluteFrequencyError": 7.005002261584181e-08,
+    "maxRelativeFrequencyError": 3.2749395821489574e-07
+  },
+  "shapBackgroundRows": 256,
+  "shapBackgroundSeed": 20260921,
+  "maxShapAdditivityError": 4.440892098500626e-16,
+  "maxShapAll512CoalitionsError": 6.106226635438361e-16,
+  "shapCoalitionValidationProfiles": 4,
+  "sourceFitScriptSha256": "1b908597607de0ebc4f634f0e2787f064a594fcd4075fea8e21a6b2ac8dc8b27",
+  "sourceShapScriptSha256": "83c52c955f1e6d2b9d32ada9944e3f50a4567dd99f3edb2c45d316d8994ef34c",
+  "sourceDataSha256": "ac78b38f0725affaae1ecb4baa5e25b371cffcbf5c0d5aa14e0035ce5d887ffe",
+  "archiveSha256": "6d42a3237dc01e9cd9794607e8e4ce9b2b36d4fc489dd80d0ab9d5b40fe3ab48",
+  "trainingPerformed": false,
+  "status": "verified repository saved-weight inference; not an independent reproduction of the R2 benchmark"
+}

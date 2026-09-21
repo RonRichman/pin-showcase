@@ -1,0 +1,352 @@
+{
+  "citation": {
+    "title": "Tree-like pairwise interaction networks",
+    "authors": [
+      "Ronald Richman",
+      "Salvatore Scognamiglio",
+      "Mario Wüthrich"
+    ],
+    "doi": "10.1017/S1748499526100402",
+    "url": "https://www.cambridge.org/core/journals/annals-of-actuarial-science/article/treelike-pairwise-interaction-networks/FC3DE8C10BEF68F9B2F2D1CC246C9C81",
+    "published": "2026-09-18",
+    "journal": "Annals of Actuarial Science",
+    "pages": "1–24",
+    "pdf": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/FC3DE8C10BEF68F9B2F2D1CC246C9C81/S1748499526100402a.pdf/tree-like-pairwise-interaction-networks.pdf",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "metric": {
+    "name": "Poisson deviance",
+    "direction": "lower is better",
+    "storedUnits": "raw deviance",
+    "paperUnits": "10^-2",
+    "paperDisplayMultiplier": 100,
+    "singleModelMeaning": "Mean of 10 fitted models; SD describes variation across those fits.",
+    "ensembleMeaning": "Deviance of the average prediction from 10 models; no ensemble SD is reported."
+  },
+  "datasets": {
+    "france": {
+      "label": "French motor insurance",
+      "policies": 678007,
+      "learning": 610206,
+      "test": 67801,
+      "features": 9,
+      "parameters": 4147,
+      "pairUnits": 45,
+      "mainEffects": 9,
+      "offDiagonalPairs": 36,
+      "learningFraction": 0.9,
+      "validationFractionOfLearning": 0.1,
+      "benchmarks": [
+        {
+          "name": "Null model (intercept-only)",
+          "kind": "baseline",
+          "parameters": 1,
+          "train": 0.25213,
+          "test": 0.25445,
+          "paperTrain": "25.213",
+          "paperTest": "25.445",
+          "runs": 1,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Poisson GLM3",
+          "kind": "baseline",
+          "parameters": 50,
+          "train": 0.24084,
+          "test": 0.24102,
+          "paperTrain": "24.084",
+          "paperTest": "24.102",
+          "runs": 1,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Poisson GAM",
+          "kind": "baseline",
+          "parameters": 66.7,
+          "train": 0.2392,
+          "test": 0.23956,
+          "paperTrain": "23.920",
+          "paperTest": "23.956",
+          "runs": 1,
+          "parameterBasis": "effective degrees of freedom"
+        },
+        {
+          "name": "Plain-vanilla FNN",
+          "kind": "single",
+          "parameters": 792,
+          "train": 0.23728,
+          "test": 0.23819,
+          "paperTrain": "23.728",
+          "paperTest": "23.819",
+          "runs": 10,
+          "parameterBasis": "per model",
+          "sd": 0.00017,
+          "trainSd": 0.00026,
+          "paperSd": "0.017",
+          "paperTrainSd": "0.026"
+        },
+        {
+          "name": "Ensemble plain-vanilla FNN",
+          "kind": "ensemble",
+          "parameters": 792,
+          "train": 0.23691,
+          "test": 0.23783,
+          "paperTrain": "23.691",
+          "paperTest": "23.783",
+          "runs": 10,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "CAFFT",
+          "kind": "single",
+          "parameters": 27133,
+          "train": 0.23715,
+          "test": 0.23807,
+          "paperTrain": "23.715",
+          "paperTest": "23.807",
+          "runs": 10,
+          "parameterBasis": "per model",
+          "sd": 0.00017,
+          "trainSd": 0.00047,
+          "paperSd": "0.017",
+          "paperTrainSd": "0.047"
+        },
+        {
+          "name": "Ensemble CAFFT",
+          "kind": "ensemble",
+          "parameters": 27133,
+          "train": 0.2363,
+          "test": 0.23726,
+          "paperTrain": "23.630",
+          "paperTest": "23.726",
+          "runs": 10,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Credibility Transformer",
+          "kind": "single",
+          "parameters": 1746,
+          "train": 0.23641,
+          "test": 0.23788,
+          "paperTrain": "23.641",
+          "paperTest": "23.788",
+          "runs": 10,
+          "parameterBasis": "per model",
+          "sd": 0.0004,
+          "trainSd": 0.00053,
+          "paperSd": "0.040",
+          "paperTrainSd": "0.053"
+        },
+        {
+          "name": "Ensemble Credibility Transformer",
+          "kind": "ensemble",
+          "parameters": 1746,
+          "train": 0.23562,
+          "test": 0.23711,
+          "paperTrain": "23.562",
+          "paperTest": "23.711",
+          "runs": 10,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Tree-like PIN",
+          "kind": "single",
+          "parameters": 4147,
+          "train": 0.23593,
+          "test": 0.2374,
+          "paperTrain": "23.593",
+          "paperTest": "23.740",
+          "runs": 10,
+          "parameterBasis": "per model",
+          "sd": 0.00025,
+          "trainSd": 0.00046,
+          "paperSd": "0.025",
+          "paperTrainSd": "0.046"
+        },
+        {
+          "name": "Ensemble tree-like PIN",
+          "kind": "ensemble",
+          "parameters": 4147,
+          "train": 0.23522,
+          "test": 0.23667,
+          "paperTrain": "23.522",
+          "paperTest": "23.667",
+          "runs": 10,
+          "parameterBasis": "per model"
+        }
+      ],
+      "source": "Published paper, Table 2 (page 13), Table 1 and Section 3.",
+      "sourceUrl": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/FC3DE8C10BEF68F9B2F2D1CC246C9C81/S1748499526100402a.pdf/tree-like-pairwise-interaction-networks.pdf#page=13",
+      "sourceTable": 2,
+      "featureNames": [
+        "Area",
+        "VehPower",
+        "VehAge",
+        "DrivAge",
+        "BonusMalus",
+        "VehGas",
+        "Density",
+        "VehBrand",
+        "Region"
+      ]
+    },
+    "belgium": {
+      "label": "Belgian motor insurance",
+      "policies": 163212,
+      "learning": null,
+      "test": null,
+      "features": 11,
+      "parameters": 4828,
+      "pairUnits": 66,
+      "mainEffects": 11,
+      "offDiagonalPairs": 55,
+      "learningFraction": 0.9,
+      "splitNote": "The paper specifies a 90/10 learning/test split, without exact integer split counts.",
+      "benchmarks": [
+        {
+          "name": "Null model (intercept-only)",
+          "kind": "baseline",
+          "parameters": 1,
+          "train": 0.55071,
+          "test": 0.55062,
+          "paperTrain": "55.071",
+          "paperTest": "55.062",
+          "runs": 1,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Poisson GLM",
+          "kind": "baseline",
+          "parameters": 13,
+          "train": 0.53494,
+          "test": 0.53338,
+          "paperTrain": "53.494",
+          "paperTest": "53.338",
+          "runs": 1,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Plain-vanilla FNN",
+          "kind": "single",
+          "parameters": 1166,
+          "train": 0.53357,
+          "test": 0.53168,
+          "paperTrain": "53.357",
+          "paperTest": "53.168",
+          "runs": 10,
+          "parameterBasis": "per model",
+          "sd": 0.00067,
+          "trainSd": 0.00052,
+          "paperSd": "0.067",
+          "paperTrainSd": "0.052"
+        },
+        {
+          "name": "Ensemble plain-vanilla FNN",
+          "kind": "ensemble",
+          "parameters": 1166,
+          "train": 0.53123,
+          "test": 0.52976,
+          "paperTrain": "53.123",
+          "paperTest": "52.976",
+          "runs": 10,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Credibility Transformer",
+          "kind": "single",
+          "parameters": 1646,
+          "train": 0.53153,
+          "test": 0.53045,
+          "paperTrain": "53.153",
+          "paperTest": "53.045",
+          "runs": 10,
+          "parameterBasis": "per model",
+          "sd": 0.00122,
+          "trainSd": 0.00104,
+          "paperSd": "0.122",
+          "paperTrainSd": "0.104"
+        },
+        {
+          "name": "Ensemble Credibility Transformer",
+          "kind": "ensemble",
+          "parameters": 1646,
+          "train": 0.53043,
+          "test": 0.52934,
+          "paperTrain": "53.043",
+          "paperTest": "52.934",
+          "runs": 10,
+          "parameterBasis": "per model"
+        },
+        {
+          "name": "Tree-like PIN",
+          "kind": "single",
+          "parameters": 4828,
+          "train": 0.53107,
+          "test": 0.52927,
+          "paperTrain": "53.107",
+          "paperTest": "52.927",
+          "runs": 10,
+          "parameterBasis": "per model",
+          "sd": 0.00098,
+          "trainSd": 0.001,
+          "paperSd": "0.098",
+          "paperTrainSd": "0.100"
+        },
+        {
+          "name": "Ensemble tree-like PIN",
+          "kind": "ensemble",
+          "parameters": 4828,
+          "train": 0.53008,
+          "test": 0.52826,
+          "paperTrain": "53.008",
+          "paperTest": "52.826",
+          "runs": 10,
+          "parameterBasis": "per model"
+        }
+      ],
+      "source": "Published paper, Table 4 (page 21), Table 3 and Section 5.",
+      "sourceUrl": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/FC3DE8C10BEF68F9B2F2D1CC246C9C81/S1748499526100402a.pdf/tree-like-pairwise-interaction-networks.pdf#page=21",
+      "sourceTable": 4,
+      "featureNames": [
+        "fuel",
+        "coverage",
+        "fleet",
+        "use",
+        "sex",
+        "bm",
+        "ageph",
+        "long",
+        "lat",
+        "power",
+        "agec"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "label": "Published article",
+      "url": "https://www.cambridge.org/core/journals/annals-of-actuarial-science/article/treelike-pairwise-interaction-networks/FC3DE8C10BEF68F9B2F2D1CC246C9C81",
+      "role": "Canonical scientific claims and benchmark results"
+    },
+    {
+      "label": "Published PDF",
+      "url": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/FC3DE8C10BEF68F9B2F2D1CC246C9C81/S1748499526100402a.pdf/tree-like-pairwise-interaction-networks.pdf",
+      "role": "Visual verification of Tables 2 and 4"
+    },
+    {
+      "label": "Authors' code and saved models",
+      "url": "https://github.com/wueth/Tree-Like-PIN",
+      "role": "Separate source for demonstrations using the released French models"
+    }
+  ],
+  "limitations": [
+    "Results concern the two datasets and the benchmarks reported in the paper; they do not establish universal superiority.",
+    "Benchmark values are transcribed published results, not newly trained models or an independent replication.",
+    "Neural single-model rows report means and standard deviations across 10 fits, not confidence intervals.",
+    "Parameter counts are per model, including ensemble rows. The GAM entry is effective degrees of freedom.",
+    "Pairwise additivity and the exact paired-permutation SHAP result apply on the link scale for the chosen empirical-background value function.",
+    "Forward-selection interaction importance comes from separate fits with a frozen additive baseline; it is not a ranking of full-model output weights.",
+    "The released R implementation places tanh after the second continuous-feature dense layer; Equation 2.2 places it after the first. Saved-model demonstrations follow the released implementation."
+  ]
+}

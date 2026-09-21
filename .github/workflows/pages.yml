@@ -1,0 +1,37 @@
+name: Verify and publish PIN showcase
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check portable site and numerical exhibits
+        run: |
+          python3 scripts/check_site.py
+          node --check site/app.js
+          node --check site/data/research.js
+          node --check site/data/model-exhibits.js
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
