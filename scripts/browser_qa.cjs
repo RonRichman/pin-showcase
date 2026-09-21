@@ -177,7 +177,7 @@ async function screenshot(page, name, fullPage = false) {
         }
         await page.locator('#stage-tab-0').click();
         assert(await page.locator('#stage-prev').isDisabled());
-        for (const id of ['intuition', 'method', 'explore', 'explain', 'evidence']) {
+        for (const id of ['intuition', 'method', 'explore', 'explain', 'evidence', 'selection', 'research']) {
           await page.locator(`#${id}`).evaluate(el => window.scrollTo(0, el.getBoundingClientRect().top + scrollY - 80));
           await page.waitForFunction(section => document.querySelector('.section-index [aria-current]')?.getAttribute('href') === `#${section}`, id);
           assert.equal(await page.locator('.section-index [aria-current]').count(), 1);
@@ -201,7 +201,7 @@ async function screenshot(page, name, fullPage = false) {
             assert(await page.locator('.section-index nav').evaluate(el => {
               const last = el.lastElementChild.getBoundingClientRect(), nav = el.getBoundingClientRect();
               return last.left >= nav.left && last.right <= nav.right + 1;
-            }), 'More chapters reveals the final Evidence destination');
+            }), 'More chapters reveals the final Research destination');
             assert.equal(await page.evaluate(() => scrollY), before.y);
             assert.equal(await page.evaluate(() => document.activeElement.id), before.focus);
           }
@@ -240,15 +240,48 @@ async function screenshot(page, name, fullPage = false) {
           const bounds = await page.locator('#benchmark-chart').evaluate(svg => {
             const view = svg.viewBox.baseVal;
             return [...svg.querySelectorAll('text')].filter(el => Number(el.getAttribute('y')) > view.height - 15).map(el => {
-              const box = el.getBBox(); return { label: el.textContent, x: box.x, right: box.x + box.width, bottom: box.y + box.height, width: view.width, height: view.height };
+              const box = el.getBBox(); return { label: el.textContent, position: Number(el.getAttribute('x')), x: box.x, right: box.x + box.width, bottom: box.y + box.height, width: view.width, height: view.height, mobile: svg.clientWidth < 550 };
             });
           });
-          assert.equal(bounds.length, 5);
+          assert(bounds.length >= 2 && bounds.length <= 6, 'Readable number of round ticks');
+          const rows = data.benchmarks.filter(row => row.kind === comparison || (!focus && row.kind === 'baseline'));
+          const low = Math.floor((Math.min(...rows.map(row => (row.test - (row.sd || 0)) * 100)) - .03) * 10) / 10;
+          const high = Math.ceil((Math.max(...rows.map(row => (row.test + (row.sd || 0)) * 100)) + .03) * 10) / 10;
+          for (const tick of bounds) {
+            const left = tick.mobile ? 0 : 240, plotWidth = tick.mobile ? tick.width - 70 : 425;
+            const valueAtPosition = low + (tick.position - left) / plotWidth * (high - low);
+            assert(Math.abs(Number(tick.label) - valueAtPosition) < 1e-8, 'Tick label equals its plotted value');
+          }
+          assert(bounds.every((box, index) => index === 0 || box.x > bounds[index - 1].right + 2), JSON.stringify({width, country, comparison, focus, bounds}));
           assert(bounds.every(box => box.x >= -.5 && box.right <= box.width + .5 && box.bottom <= box.height + .5), JSON.stringify({ width, country, comparison, focus, bounds }));
           checked.push({ width, country, comparison, focus });
         }
       }
       await page.locator('#neural-focus').uncheck(); return { combinations: checked.length };
+    });
+    await test('Fable refinements keep labels readable, round SHAP ticks accurate and research links aligned', async () => {
+      for (const width of [320, 390, 768, 1100, 1440]) {
+        await page.setViewportSize({ width, height: 1000 }); await page.waitForTimeout(180);
+        const small = await page.locator('body *').evaluateAll(elements => elements.filter(el => el.getClientRects().length && parseFloat(getComputedStyle(el).fontSize) < 10).map(el => ({ tag: el.tagName, id: el.id, size: getComputedStyle(el).fontSize })));
+        assert.deepEqual(small, [], `Small text at ${width}px`);
+        if (width >= 1100) assert(await page.locator('.section-index nav').evaluate(el => el.scrollWidth <= el.clientWidth), 'All seven chapters fit desktop navigation');
+        assert.equal(await page.locator('.section-index nav a').count(), 7);
+        const links = await page.locator('.research-links').evaluate(el => ({ lefts: [...el.querySelectorAll('strong')].map(item => item.getBoundingClientRect().left), border: getComputedStyle(el.lastElementChild).borderBottomWidth }));
+        assert(Math.max(...links.lefts) - Math.min(...links.lefts) < 1, 'Research titles align');
+        assert.equal(links.border, '1px');
+        const ticks = await page.locator('#shap-chart').evaluate(svg => ({ mobile: svg.clientWidth < 550, ticks: [...svg.querySelectorAll('text[y="450"]')].map(el => { const b = el.getBBox(); return { value: Number(el.textContent), position: Number(el.getAttribute('x')), left: b.x, right: b.x + b.width }; }) }));
+        const extent = Math.max(...model.profiles.flatMap(profile => profile.contributions.map(c => Math.abs(c.value)))) * 1.2;
+        for (const [index, tick] of ticks.ticks.entries()) {
+          const actual = (tick.position - (ticks.mobile ? 235 : 426)) / (ticks.mobile ? 76 : 214) * extent;
+          assert(Math.abs(tick.value - actual) < 1e-8, 'SHAP tick label equals its plotted value');
+          assert(tick.value % (ticks.mobile ? 1 : .5) === 0);
+          assert(tick.left >= 0 && tick.right <= (ticks.mobile ? 360 : 720));
+          if (index) assert(tick.left > ticks.ticks[index - 1].right + 2, 'SHAP labels do not overlap');
+        }
+      }
+      assert.equal(await page.locator('#pair-choices b').count(), 0);
+      const misleading = await page.locator('a').evaluateAll(links => links.filter(a => a.textContent.includes('↗') && !a.getAttribute('href').startsWith('https://')).map(a => a.getAttribute('href')));
+      assert.deepEqual(misleading, []);
     });
     await test('All disclosure panels open and close through the keyboard', async () => {
       const summaries = page.locator('details > summary'); const count = await summaries.count();

@@ -155,3 +155,29 @@ The refined site was published from commit
 all 21 public assets matched local bytes. The receipts are
 `verification/design-browser-qa-live.json` and
 `verification/design-live-assets.json`.
+
+## Claude Fable final review
+
+At your request, Claude Code reviewed the source and twelve fresh desktop/mobile
+screenshots using `claude-fable-5-1`. The review and implementation decisions are
+in `todos/2026-09-21-fable-review.md`; the model receipt is
+`verification/fable-review.json`. Fable found no major defects and proposed five
+small refinements, all implemented.
+
+Chart gridlines now sit at round values whose labels match their coordinates.
+The bar and point geometry is unchanged. The first check caught crowded ticks
+at 320 pixels; selecting fewer round ticks on mobile fixed it. That failed run
+is retained in `verification/fable-first-pass.json`. The test harness also needed
+to treat negative zero as zero when checking negative multiples.
+
+The chapter rail now follows all seven numbered sections, including selection
+and the research links. Small CSS labels have a 10-pixel minimum. Downward
+arrows identify links further down the page or downloads; pair selectors no
+longer suggest navigation. Fixed-width row numbers align the research links,
+and a closing rule includes the citation button.
+
+All 15 browser groups pass locally, including the original numerical checks,
+32 benchmark configurations and new checks for tick accuracy, label spacing,
+chapter coverage, small text and link alignment. See
+`verification/fable-browser-qa.json`. Fresh screenshots were visually inspected.
+The numerical source files and model artifacts are unchanged.

@@ -187,13 +187,14 @@
     const mobile=$('shap-chart').clientWidth<550,sw=mobile?360:720,mid=mobile?235:426,half=mobile?76:214,top=35,rowHeight=43;
     $('shap-chart').setAttribute('viewBox',`0 0 ${sw} 470`);
     let s='<g font-family="DM Sans, sans-serif">';
-    [-1,-.5,0,.5,1].forEach(t=>{const x=mid+t*half;s+=`<line x1="${x}" x2="${x}" y1="17" y2="420" stroke="${t===0?'#738a74':'#c7d2bd'}" stroke-dasharray="${t===0?'0':'3 5'}"/>`+text(x,450,(t*extent).toFixed(1),'fill="#58655c" font-size="13" text-anchor="middle"');});
+    const tickStep=mobile?1:.5;
+    for(let i=-Math.floor(extent/tickStep);i<=Math.floor(extent/tickStep);i++){const value=i*tickStep,x=mid+value/extent*half;s+=`<line x1="${x}" x2="${x}" y1="17" y2="420" stroke="${i===0?'#738a74':'#c7d2bd'}" stroke-dasharray="${i===0?'0':'3 5'}"/>`+text(x,450,value.toFixed(1),'fill="#58655c" font-size="13" text-anchor="middle"');}
     rows.forEach((c,i)=>{const y=top+i*rowHeight,bar=c.value/extent*half;s+=text(0,y+5,c.feature,`fill="#183d34" font-size="${mobile?12:14}"`);s+=`<rect x="${Math.min(mid,mid+bar)}" y="${y-12}" width="${Math.max(Math.abs(bar),1)}" height="23" fill="${c.value>=0?'#b25b39':'#507a5b'}"/>`;s+=text(mobile?sw-1:(c.value>=0?mid+bar+8:mid+bar-8),y+5,signed(c.value),`fill="#183d34" font-size="${mobile?11:12}" text-anchor="${mobile?'end':c.value>=0?'start':'end'}"`);});
     $('shap-chart').innerHTML=s+'</g>';$('shap-chart').setAttribute('aria-label',`${p.label}. Predicted frequency ${p.frequency.toFixed(5)}. Feature log contributions: ${rows.map(c=>`${c.feature} ${signed(c.value)}`).join(', ')}.`);
   }
   if(model?.status==='verified'){
     $('model-loading').hidden=true;$('model-explorer').hidden=false;$('profile-exhibit').hidden=false;
-    $('pair-choices').innerHTML=model.pairs.map((p,i)=>{const [first,second]=p.label.split(' × ');return `<button type="button" data-pair="${i}" aria-pressed="${i===0}"><span>${escapeText(first)}</span><small>× ${escapeText(second)}</small><b aria-hidden="true">↗</b></button>`;}).join('');
+    $('pair-choices').innerHTML=model.pairs.map((p,i)=>{const [first,second]=p.label.split(' × ');return `<button type="button" data-pair="${i}" aria-pressed="${i===0}"><span>${escapeText(first)}</span><small>× ${escapeText(second)}</small></button>`;}).join('');
     document.querySelectorAll('[data-pair]').forEach(button=>button.addEventListener('click',()=>{selectPair(Number(button.dataset.pair));announce(`${currentPair().label}. Surface loaded. Scale is specific to this pair.`);}));
     $('show-support').addEventListener('change',drawPair);['pair-x','pair-y'].forEach(id=>$(id).addEventListener('input',drawPair));
     function inspectPair(event){
@@ -220,7 +221,9 @@
     const mobile=$('benchmark-chart').clientWidth<550,sw=mobile?Math.max(280,$('benchmark-chart').clientWidth):780,left=mobile?0:240,pw=mobile?sw-70:425,top=45,rh=mobile?62:49,height=top+rows.length*rh+30;
     $('benchmark-chart').setAttribute('viewBox',`0 0 ${sw} ${height}`);
     let s='<g font-family="DM Sans, sans-serif">';
-    for(let i=0;i<=4;i++){const x=left+pw*i/4;s+=`<line x1="${x}" x2="${x}" y1="20" y2="${top+(rows.length-.5)*rh}" stroke="#456151" stroke-dasharray="3 5"/>`+text(x,height-8,(lo+(hi-lo)*i/4).toFixed(2),`text-anchor="${mobile&&i===0?'start':'middle'}" fill="#bfd1c3" font-size="13"`);}
+    const roughStep=(hi-lo)/(mobile?3:5),magnitude=10**Math.floor(Math.log10(roughStep));
+    const tickStep=[1,2,2.5,5,10].find(step=>step*magnitude>=roughStep)*magnitude;
+    for(let i=Math.ceil(lo/tickStep);i*tickStep<=hi+1e-9;i++){const value=i*tickStep,x=left+(value-lo)/(hi-lo)*pw;s+=`<line x1="${x}" x2="${x}" y1="20" y2="${top+(rows.length-.5)*rh}" stroke="#456151" stroke-dasharray="3 5"/>`+text(x,height-8,value.toFixed(2),`text-anchor="${mobile&&x<24?'start':'middle'}" fill="#bfd1c3" font-size="13"`);}
     rows.forEach((b,i)=>{
       const y=top+i*rh,x=left+(b.test*100-lo)/(hi-lo)*pw,isPin=/PIN/.test(b.name),label=b.name.replace(/^Ensemble /,'').replace('tree-like PIN','Tree-like PIN').replace('plain-vanilla','Plain-vanilla').replace(' (intercept-only)','');
       if(isPin)s+=`<rect x="0" y="${y-(mobile?29:22)}" width="${sw-2}" height="${mobile?53:44}" fill="#254d3e"/>`;

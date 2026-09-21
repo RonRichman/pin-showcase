@@ -1,0 +1,26 @@
+{
+  "reviewedCommit": "73c9bbd3f7c89301e7902bb143f3c97cf7820467",
+  "provider": "Claude Code",
+  "model": [
+    "claude-fable-5-1"
+  ],
+  "sessionId": "60bf3cbe-9945-4955-9c7c-26b602e88f42",
+  "status": "success",
+  "durationMs": 89630,
+  "promptSha256": "0b6f0a94e8a0a4ba43f306e70213617cf2ebd6233c65ceeb15b7a40da7b9d6f5",
+  "responseSha256": "4d726ae6397d9be1602f1f6801e00c72e71f59717643dd3142630ec9396b1672",
+  "screenshots": {
+    "evidence-1440.png": "02172a393a8450c4bd46706e6e1d6ce55f70d6b22e13cb809fd850072a46b494",
+    "evidence-390.png": "c50db81b7a2c4dea3629b99dd88fbd7bf2614380d5718407d20029e1c243123b",
+    "explain-1440.png": "ee84e4a91e2fe3d8c0386f5dd2b8cfe52366e30e2c52180cdbbdede87783b336",
+    "explain-390.png": "0e3e0d1dcf13ac41734bb1121d16709339950e7ef15e6e41c8ad586a8c6f2db7",
+    "explore-1440.png": "f70d608b8cf13f9bf2d147b8e73f895538a28ed9a1a2a8b35867efdbb353dbf7",
+    "explore-390.png": "457bbbaec3611e22627c7b757a6d79844f7c1ac8b695e8044c846937c321e9cd",
+    "hero-1440.png": "23727385b15171ac952390e2a906d1fceabc0204ef4a33b95d0687f3533318b2",
+    "hero-390.png": "554e149a53d6541c9c300b62ee8542ef02e0a5dc6641f97c818054580c948847",
+    "method-1440.png": "663435b7b3482ecd1e0ce1fb90bcb64f54cc10c1faf5cd97f99b7e5271b633cc",
+    "method-390.png": "700182a1d173385ebb663b60885cb9a2967fcb0a44b85874fe458a9580290067",
+    "research-1440.png": "f57d1b5996ea81faec139912799474009d280619076fc601a442dc9a90b82a19",
+    "research-390.png": "d12db7d47cc650ecebe1bb9b1ae1fd215117abb6c9811f14345cf8738822e494"
+  }
+}

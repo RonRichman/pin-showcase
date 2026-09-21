@@ -1,0 +1,289 @@
+{
+  "url": "http://127.0.0.1:8766/",
+  "startedAt": "2026-09-21T20:00:38.579Z",
+  "sourceHashesAtStart": {
+    "site/index.html": "bcaab1532782000ba0329ae9e91509b57d506651149e736ed5c27655357d8f8a",
+    "site/styles.css": "827ff8b5f169e6dabac45afcc40f6d0ce28d0ea918ebfa57b87bb41a17fe55cc",
+    "site/app.js": "665f4175aa5161a737369b7ef861003ecc945e2f2255ff6aa8b4c1b309c73fb7",
+    "site/data/model-exhibits.js": "ff5ea4eed46c60102b417c827e84d257f61ac0fffe25dd3a397e27e1597dfa94",
+    "site/data/research.js": "7d8881a407486f8a9a10ef3af5b38b55611e929427f2e2ed606afe4bb0565204",
+    "scripts/browser_qa.cjs": "8d0c101a85419a161428db2d90be04755ac1fae123b83c1ad438bb9811335335"
+  },
+  "tests": [
+    {
+      "name": "All requested viewport widths have no document overflow",
+      "status": "passed",
+      "details": [
+        {
+          "viewport": 320,
+          "document": 320,
+          "body": 320,
+          "offenders": [
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "SPAN",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "SPAN",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "SPAN",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "SPAN",
+              "id": "",
+              "className": ""
+            }
+          ]
+        },
+        {
+          "viewport": 390,
+          "document": 390,
+          "body": 390,
+          "offenders": [
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "SPAN",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "SPAN",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "A",
+              "id": "",
+              "className": ""
+            },
+            {
+              "tag": "SPAN",
+              "id": "",
+              "className": ""
+            }
+          ]
+        },
+        {
+          "viewport": 768,
+          "document": 768,
+          "body": 768,
+          "offenders": []
+        },
+        {
+          "viewport": 1024,
+          "document": 1024,
+          "body": 1024,
+          "offenders": []
+        },
+        {
+          "viewport": 1440,
+          "document": 1440,
+          "body": 1440,
+          "offenders": []
+        }
+      ]
+    },
+    {
+      "name": "Three conceptual activations and both ranges change the rendered teaching response",
+      "status": "passed"
+    },
+    {
+      "name": "Architecture tabs support every stage and arrow/Home/End keyboard navigation",
+      "status": "passed"
+    },
+    {
+      "name": "Every pair grid maps sliders, extrema, support and pointer coordinates to source numbers",
+      "status": "passed",
+      "details": [
+        "age-bonus",
+        "age-density",
+        "vehicle-age-power"
+      ]
+    },
+    {
+      "name": "All constructed profiles display exact source frequencies, SHAP values and rounded numeric closure",
+      "status": "passed",
+      "details": {
+        "profiles": 4,
+        "sourceClosureTolerance": 1e-10,
+        "displayedClosureTolerance": 0.0002
+      }
+    },
+    {
+      "name": "Both countries and comparison types agree with every published benchmark row",
+      "status": "passed",
+      "details": [
+        {
+          "country": "france",
+          "comparison": "single",
+          "pin": "23.740",
+          "completeTableRows": 11
+        },
+        {
+          "country": "france",
+          "comparison": "ensemble",
+          "pin": "23.667",
+          "completeTableRows": 11
+        },
+        {
+          "country": "belgium",
+          "comparison": "single",
+          "pin": "52.927",
+          "completeTableRows": 8
+        },
+        {
+          "country": "belgium",
+          "comparison": "ensemble",
+          "pin": "52.826",
+          "completeTableRows": 8
+        }
+      ]
+    },
+    {
+      "name": "Surface legend explains its scale and support visibility never changes numeric values",
+      "status": "passed"
+    },
+    {
+      "name": "Refined controls, chapter navigation and touch surface readouts work across viewport widths",
+      "status": "passed"
+    },
+    {
+      "name": "Neural focus preserves all published table rows, status feedback and readable chart bounds",
+      "status": "passed",
+      "details": {
+        "combinations": 32
+      }
+    },
+    {
+      "name": "Fable refinements keep labels readable, round SHAP ticks accurate and research links aligned",
+      "status": "passed"
+    },
+    {
+      "name": "All disclosure panels open and close through the keyboard",
+      "status": "passed",
+      "details": {
+        "count": 5
+      }
+    },
+    {
+      "name": "Citation clipboard action and permission-denied download fallback both deliver BibTeX",
+      "status": "passed",
+      "details": {
+        "clipboard": true,
+        "fallbackDownload": "richman-scognamiglio-wuthrich-2026.bib"
+      }
+    },
+    {
+      "name": "Reduced-motion default and explicit pause keep hero canvas still",
+      "status": "passed"
+    },
+    {
+      "name": "Internal anchors resolve and every local linked resource returns success",
+      "status": "passed",
+      "details": [
+        "http://127.0.0.1:8766/data/model-exhibits.json",
+        "http://127.0.0.1:8766/data/benchmarks.csv"
+      ]
+    },
+    {
+      "name": "No page exceptions, console errors, failed requests or HTTP errors",
+      "status": "passed"
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "screenshots": [
+    {
+      "file": "verification/screenshots/fable-browser-qa/page-390.png",
+      "sha256": "c177ddadc7988fba480d88cc7296d5f917b3beb20334d85ccd7237c87716c2f9"
+    },
+    {
+      "file": "verification/screenshots/fable-browser-qa/page-1440.png",
+      "sha256": "fe9310e55224bd6399b76be4f3f23d7181a20beb0411d3b4469bd5b6e90c8225"
+    },
+    {
+      "file": "verification/screenshots/fable-browser-qa/pair-explorer.png",
+      "sha256": "b31ed343217ede908773c241bd71958fe033425fa91caa9ee1d51b75e2b579f3"
+    },
+    {
+      "file": "verification/screenshots/fable-browser-qa/profile-explanation.png",
+      "sha256": "2faa292d531764882da48e786932c1c75a4df8f0249b71310b31cbc3cbb91a3a"
+    },
+    {
+      "file": "verification/screenshots/fable-browser-qa/belgian-results.png",
+      "sha256": "97344da8837644bee5812a2e7d2795b0c8982fc940f50d7607dcfe2239eddcf7"
+    }
+  ],
+  "accessibility": {
+    "engine": "manual semantic and keyboard behavior checks; axe-core availability checked below",
+    "axe": {
+      "status": "not installed in checked paths; no dependency added",
+      "checkedPaths": [
+        "/home/ron/.claude/skills/gstack/node_modules/axe-core/axe.min.js",
+        "/home/ron/node_modules/axe-core/axe.min.js"
+      ]
+    }
+  },
+  "loadedData": {
+    "models": 10,
+    "profiles": 4,
+    "pairGrids": 3,
+    "datasets": [
+      "france",
+      "belgium"
+    ]
+  },
+  "completedAt": "2026-09-21T20:00:55.897Z",
+  "sourceHashesAtEnd": {
+    "site/index.html": "bcaab1532782000ba0329ae9e91509b57d506651149e736ed5c27655357d8f8a",
+    "site/styles.css": "827ff8b5f169e6dabac45afcc40f6d0ce28d0ea918ebfa57b87bb41a17fe55cc",
+    "site/app.js": "665f4175aa5161a737369b7ef861003ecc945e2f2255ff6aa8b4c1b309c73fb7",
+    "site/data/model-exhibits.js": "ff5ea4eed46c60102b417c827e84d257f61ac0fffe25dd3a397e27e1597dfa94",
+    "site/data/research.js": "7d8881a407486f8a9a10ef3af5b38b55611e929427f2e2ed606afe4bb0565204",
+    "scripts/browser_qa.cjs": "8d0c101a85419a161428db2d90be04755ac1fae123b83c1ad438bb9811335335"
+  },
+  "sourceChangedDuringRun": false,
+  "passed": true
+}
