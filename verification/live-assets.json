@@ -1,0 +1,129 @@
+{
+  "url": "https://ronrichman.github.io/pin-showcase/",
+  "verifiedAt": "2026-09-21T19:31:29.958548+00:00",
+  "siteCommit": "1f98ae1c12350a5c6647aff11175353b3fc2cb9d",
+  "deploymentRun": "https://github.com/RonRichman/pin-showcase/actions/runs/35645187203",
+  "files": [
+    {
+      "path": "app.js",
+      "status": 200,
+      "sha256": "28134234fc2ab75457044ed0b58b12dfd063317c4502e61b751b1150bbcea66a",
+      "matchesLocal": true
+    },
+    {
+      "path": "styles.css",
+      "status": 200,
+      "sha256": "bbae9134944608e7e25d75e9e7dc58f898f84dc4b029a497366a7af07bfd4656",
+      "matchesLocal": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "41a0e046ef70c2288f7f694e803564c27223e73d899fb92bd0e72107c974a52d",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/favicon.svg",
+      "status": 200,
+      "sha256": "2a2660cde42b88259c4193f8f18f7fd30cd41fc68750ef007314f13e286dcf9b",
+      "matchesLocal": true
+    },
+    {
+      "path": "research/README.md",
+      "status": 200,
+      "sha256": "2e11aab87ddd4579cdaeda080ff1b036d0402738e12673d8bc836049c5714e2f",
+      "matchesLocal": true
+    },
+    {
+      "path": "data/research.js",
+      "status": 200,
+      "sha256": "7d8881a407486f8a9a10ef3af5b38b55611e929427f2e2ed606afe4bb0565204",
+      "matchesLocal": true
+    },
+    {
+      "path": "data/benchmarks.csv",
+      "status": 200,
+      "sha256": "12d415632f572d7449fd97da7a1ed3b8122dbf02df2b2a88fe1513d5547d016a",
+      "matchesLocal": true
+    },
+    {
+      "path": "data/research.json",
+      "status": 200,
+      "sha256": "b4559e664c330662f3cfdee4a3beacea2db6b2cb05645eaaa7bfcdb837b31d50",
+      "matchesLocal": true
+    },
+    {
+      "path": "data/model-exhibits.js",
+      "status": 200,
+      "sha256": "ff5ea4eed46c60102b417c827e84d257f61ac0fffe25dd3a397e27e1597dfa94",
+      "matchesLocal": true
+    },
+    {
+      "path": "data/model-exhibits.json",
+      "status": 200,
+      "sha256": "16933c700c779b7a296a2b32d079799a4f31ffdc5be9e5df8205be6c224bcae6",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/DM-Sans-OFL.txt",
+      "status": 200,
+      "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/Instrument-Serif-OFL.txt",
+      "status": 200,
+      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/font-2.ttf",
+      "status": 200,
+      "sha256": "b79a2ea7a38f33fd96a282fadb9ce97626bb0724a44d21075859f0e50239993a",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/font-3.ttf",
+      "status": 200,
+      "sha256": "2a8e7f713ee79fbccdef3cef5c787aff47580299f7da60144961e7db2ec08211",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/font-0.ttf",
+      "status": 200,
+      "sha256": "b0ae3e89a7d3ef2b1838bb4b1ceb0b17cc3435af061eee809d76aa623ff116e9",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/font-5.ttf",
+      "status": 200,
+      "sha256": "a99e3db50076202713812ed541feeb23ffeebb61db1fa6b1cf48fe590d37ef18",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/font-1.ttf",
+      "status": 200,
+      "sha256": "376427b5322148d8de1e03f263bcca4935a2d60ba71d9f94f4947ab664c711ae",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/FONT_SOURCES.md",
+      "status": 200,
+      "sha256": "164a7fad809cb140a648aad8cbc797e6e4bcef02595f15859783da6e207f92b9",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/fonts.css",
+      "status": 200,
+      "sha256": "f46d81951d41ad263cb7c03c91f8416bdcec6f7682b409077f242911104ed652",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/fonts/font-4.ttf",
+      "status": 200,
+      "sha256": "fecf4861d5202405b8bd45c683858b6870642a026784fe0dbf88ff55dedee8a0",
+      "matchesLocal": true
+    }
+  ],
+  "passed": true
+}

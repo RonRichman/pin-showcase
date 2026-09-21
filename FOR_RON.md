@@ -96,3 +96,22 @@ The installed interactive browser shares a session with other work. Once that
 caused navigation interference, verification moved to isolated Playwright
 browser contexts. Publication uses a separate repository and worktree so no
 unrelated home-folder files enter the commit.
+
+## Delivery
+
+Published at https://ronrichman.github.io/pin-showcase/ from site commit
+`1f98ae1c12350a5c6647aff11175353b3fc2cb9d`. GitHub Actions run `35645187203`
+completed both verification and deployment. All 11 browser-check groups passed
+against the public URL, including the five responsive widths (320–1440 pixels),
+keyboard controls, numerical readouts and network checks. All 20 public assets
+checked against the local site matched byte for byte. See
+`verification/browser-qa-live.json` and `verification/live-assets.json`.
+
+Keyboard and semantic checks were performed directly. An automated axe scan was
+not run because axe-core was not installed; these checks do not constitute a
+complete accessibility certification. Desktop and mobile page/chart screenshots
+were visually inspected as well.
+
+The main checkout is `/home/ron/pin-showcase`; implementation and private source
+extraction are retained in `/home/ron/pin-showcase-build`. Both refer to the same
+Git repository. The original R2 ZIP was never modified.
