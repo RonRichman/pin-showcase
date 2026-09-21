@@ -30,6 +30,10 @@ All findings below are resolved in `feat/design-polish`.
   support grids and four SHAP decompositions reconcile to their source files.
 - JavaScript syntax and `git diff --check` pass.
 - No research data or model artifacts changed and no models were retrained.
+- Published commit `56f474e8db298c03c00cd87da9f181e3e4a97c97` passed GitHub
+  Actions run `35647185854`. All 14 browser groups passed again on the public
+  site (`verification/design-browser-qa-live.json`); all 21 deployed assets
+  matched local bytes (`verification/design-live-assets.json`).
 
 Accessibility checks cover keyboard behaviour and semantics. Axe-core was not
 installed, so this is not a full accessibility audit.

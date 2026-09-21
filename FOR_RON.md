@@ -148,3 +148,10 @@ selection, keyboard feedback and mobile navigation. It caught a two-pixel
 vertical crop on axis labels that a page-overflow check would miss. Checking
 the text bounding boxes inside the SVG fixed the root cause. All 14 groups
 passed locally; see `verification/design-browser-qa.json`.
+
+The refined site was published from commit
+`56f474e8db298c03c00cd87da9f181e3e4a97c97` by successful GitHub Actions run
+`35647185854`. All 14 browser groups also passed against the public URL, and
+all 21 public assets matched local bytes. The receipts are
+`verification/design-browser-qa-live.json` and
+`verification/design-live-assets.json`.
